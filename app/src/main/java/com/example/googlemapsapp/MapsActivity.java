@@ -2,26 +2,13 @@ package com.example.googlemapsapp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.nfc.Tag;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,12 +35,8 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
-import java.io.IOError;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG="MapsActivity";
@@ -65,12 +48,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted=false;
     private AutocompleteSupportFragment autocompleteFragment;
-    private Button near;
 
-
-
-
-    private EditText editText;
     private GoogleMap mapGoogle;
     private View mapview;
 
@@ -93,8 +71,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
          findCurrentLocation();
             mapGoogle.setMyLocationEnabled(true);
             mapGoogle.getUiSettings().setMyLocationButtonEnabled(true);
-        Log.i(TAG,"now it should searc for place");
-        //searchForPlace();
         initGooglePlacesApi();
 
 
@@ -197,53 +173,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .position(ll)
                 .title(title);
         mapGoogle.addMarker(options);
-    //    closeKeyboard();
+
     }
-//    private void searchForPlace(){
-//        Log.i(TAG,"beginning of searching");
-//        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int actionid, KeyEvent keyEvent) {
-//                //Log.i(TAG,"inside the listenr");
-//                if(actionid== EditorInfo.IME_ACTION_DONE || actionid==EditorInfo.IME_ACTION_SEARCH || keyEvent.getAction()==KeyEvent.ACTION_DOWN || keyEvent.getAction()==KeyEvent.KEYCODE_ENTER){
-//                  //function for searching the place
-//                  //  Log.i(TAG,"trueee");
-//                    geoLocate();
-//                    closeKeyboard();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//
-//    }
-//    public void geoLocate(){
-//        String searchString=editText.getText().toString();
-//        Geocoder geocoder=new Geocoder(MapsActivity.this);
-//        List<Address> results=new ArrayList<>();
-//        try{
-//               results=geocoder.getFromLocationName(searchString,1);
-//
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        if(results.size()>0){
-//            Address adress= results.get(0);
-//         //   Toast.makeText(MapsActivity.this,"hehe "+ adress.getCountryName(),Toast.LENGTH_LONG).show();
-//            String title=adress.getAddressLine(0);
-//            moveCamera(new LatLng(adress.getLatitude(),adress.getLongitude()),DEFAULT_ZOOM,title);
-//            if (editText.length() > 0) {
-//                editText.getText().clear();
-//            }
-//        }else{
-//            Toast.makeText(MapsActivity.this,"The adress you are searching for does not exist",Toast.LENGTH_LONG).show();
-//        }
-//
-//    }
-//    public void closeKeyboard(){
-//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-//    }
+
 
 
     private void initGooglePlacesApi() {
@@ -267,21 +199,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-//                if(place.getAddressComponents().asList().get(0).getTypes().get(0).equalsIgnoreCase("route")){
-//                    binding.textViewLocation.setText(place.getAddress()); //Works well
-//                    location = place.getAddress();
+
 
                 final LatLng lll=place.getLatLng();
 
                 Log.i(TAG, "Place: " + lll.longitude + ", " + lll.latitude);
                 moveCamera(lll,DEFAULT_ZOOM,place.getName());
-              //  }else{ //If user does not choose a specific place.
-                   // AndroidUtils.vibratePhone(getApplication(), 200);
-                   //// TastyToast.makeText(getApplicationContext(),
-                        //    getString(R.string.choose_an_address), TastyToast.DEFAULT, TastyToast.CONFUSING);
-//                }
-//
-//                Log.i(TAG, "Place: " + place.getAddressComponents().asList().get(0).getTypes().get(0) + ", " + place.getId() + ", " + place.getAddress());
             }
 
 

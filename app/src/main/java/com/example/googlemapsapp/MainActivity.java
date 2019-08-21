@@ -82,20 +82,5 @@ private static final int ERROR_DIAlOLG_REQUEST=9001;
 
         });
     }
-    public boolean checkForGoogleMaps(){
-        int available= GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
-        if(available== ConnectionResult.SUCCESS){
-            //eerything is fine
-            return true;
-        }
-        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-            //an error occured but you can resolve it
-            Dialog dialog=GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this,available,ERROR_DIAlOLG_REQUEST);
-            dialog.show();
-        }
-        else{
-            Toast.makeText(MainActivity.this,"You cannot access Google Maps",Toast.LENGTH_LONG).show();
-        }
-        return false;
-    }
+
 }
